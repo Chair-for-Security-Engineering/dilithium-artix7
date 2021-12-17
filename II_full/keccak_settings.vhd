@@ -1,12 +1,51 @@
 -- COPYRIGHT (c) 2021 ALL RIGHT RESERVED
 -- Chair for Security Engineering
--- Jan Richter-Brockmann, Georg Land (georg.land@rub.de)
+-- Georg Land (georg.land@rub.de)
 -- License: see LICENSE file
 
 -- THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY 
 -- KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
 -- IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 -- PARTICULAR PURPOSE.
+
+----------------------------------------------------------------------------------
+-- COPYRIGHT (c) 2018 ALL RIGHT RESERVED
+--
+-- COMPANY:					Ruhr-University Bochum, Chair for Security Engineering
+-- AUTHOR:					Jan Richter-Brockmann, Georg Land
+--
+-- CREATE DATA:			    13/12/2018
+-- LAST CHANGES:            10/01/2020
+-- MODULE NAME:			    KECCAK_SETTINGS
+--
+-- REVISION:				1.00 - Contains all settings for the KECCAK core
+--
+-- LICENCE: 				Please look at licence.txt
+-- USAGE INFORMATION:	    Please look at readme.txt. If licence.txt or readme.txt
+--							are missing or if you have questions regarding the code
+--							please contact Tim G�neysu (tim.gueneysu@rub.de) and
+--                          Jan Richter-Brockmann (jan.richter-brockmann@rub.de)
+--
+-- THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY 
+-- KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+-- IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+-- PARTICULAR PURPOSE.
+--
+-- Additional Comments:
+--          _ _ _ _ _
+--        /         /|
+--    w /         /  |
+--    /         /    |
+--  /_ _ _ _ _/      |
+--  |         |      / 
+--  |         |    /
+--  |         |  /
+--  |_ _ _ _ _|/
+--
+-- STATE_WIDTH = {25,50,100,200,400,800,1600}
+--
+----------------------------------------------------------------------------------
+
 
 LIBRARY IEEE;
     USE IEEE.STD_LOGIC_1164.ALL;

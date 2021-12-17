@@ -263,7 +263,7 @@ generate
             )+DILITHIUM_Q,
             23
         )
-    ) when d.maccq.wdata(i)(DILITHIUM_d-1) = '1' else "0000000000" & d.maccq.wdata(i)(DILITHIUM_d-1 downto 0);
+    ) when unsigned(d.maccq.wdata(i)(DILITHIUM_d-1 downto 0)) > (2**(DILITHIUM_d-1)) else "0000000000" & d.maccq.wdata(i)(DILITHIUM_d-1 downto 0);
     p2rhigh(i) <= std_logic_vector
     (
         to_unsigned
@@ -277,7 +277,7 @@ generate
             ) + 1,
             10
         )
-    ) & "0000000000000" when d.maccq.wdata(i)(DILITHIUM_d-1) = '1' else d.maccq.wdata(i)(22 downto DILITHIUM_d) & "0000000000000";
+    ) & "0000000000000" when unsigned(d.maccq.wdata(i)(DILITHIUM_d-1 downto 0)) > (2**(DILITHIUM_d-1)) else d.maccq.wdata(i)(22 downto DILITHIUM_d) & "0000000000000";
 end generate;
 
 ------------------------------------------------------------------------------------

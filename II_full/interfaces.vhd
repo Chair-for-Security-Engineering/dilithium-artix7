@@ -87,12 +87,13 @@ package interfaces is
 -- hreg --
 ----------
     type hreg_in_type is record
+        rst : std_logic;
         en_rotate_data, en_write_data : std_logic;
         en_rotate_poly, en_write_poly : std_logic;
         data_offset : std_logic_vector(7 downto 0);
         poly_offset : std_logic_vector(7 downto 0);
     end record hreg_in_type;
-    constant ZEROHREG : hreg_in_type := (data_offset => (others => '0'), poly_offset => (others => '0'), others => '0');
+    constant ZEROHREG : hreg_in_type := (rst => '0', data_offset => (others => '0'), poly_offset => (others => '0'), others => '0');
     
     type hreg_out_type is record
         data_offset : std_logic_vector(7 downto 0);

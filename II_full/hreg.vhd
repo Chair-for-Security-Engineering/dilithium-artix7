@@ -38,22 +38,28 @@ r: process(clk)
 begin
     if rising_edge(clk)
     then
-        if d.en_rotate_data = '1'
+        if d.rst = '1'
         then
-            data_off(0 to DILITHIUM_omega-2) <= data_off(1 to DILITHIUM_omega-1);
-            data_off(DILITHIUM_omega-1) <= data_off(0);
-            if d.en_write_data = '1'
+            data_off <= (others => (others => '0'));
+            poly_off <= (others => (others => '0'));
+        else
+            if d.en_rotate_data = '1'
             then
-                data_off(DILITHIUM_omega-1) <= d.data_offset;
+                data_off(0 to DILITHIUM_omega-2) <= data_off(1 to DILITHIUM_omega-1);
+                data_off(DILITHIUM_omega-1) <= data_off(0);
+                if d.en_write_data = '1'
+                then
+                    data_off(DILITHIUM_omega-1) <= d.data_offset;
+                end if;
             end if;
-        end if;
-        if d.en_rotate_poly = '1'
-        then
-            poly_off(0 to DILITHIUM_k-2) <= poly_off(1 to DILITHIUM_k-1);
-            poly_off(DILITHIUM_k-1) <= poly_off(0);
-            if d.en_write_poly = '1'
+            if d.en_rotate_poly = '1'
             then
-                poly_off(DILITHIUM_k-1) <= d.poly_offset;
+                poly_off(0 to DILITHIUM_k-2) <= poly_off(1 to DILITHIUM_k-1);
+                poly_off(DILITHIUM_k-1) <= poly_off(0);
+                if d.en_write_poly = '1'
+                then
+                    poly_off(DILITHIUM_k-1) <= d.poly_offset;
+                end if;
             end if;
         end if;
     end if;

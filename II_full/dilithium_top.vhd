@@ -787,6 +787,8 @@ begin
                 keccakd <= vrfyq.keccakd;
                 muregd <= vrfyq.muregd;
                 chashregd <= vrfyq.chashregd;
+                ready_rcv_out <= vrfyq.result; -- messy :/
+                valid_out <= vrfyq.valid;
                 
             when OPCODE_VRFY_PRECOMP =>
                 keccakd <= prevrfyq.keccakd;

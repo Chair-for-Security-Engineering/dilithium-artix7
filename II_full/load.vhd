@@ -443,8 +443,9 @@ begin
             q.memd(m).ren <= (others => memcntd.en);
             
         when l_z | l_z_send =>
-            m := memory_map.zy(memcnt / (DILITHIUM_N/4)).memory_index;
-            p := memory_map.zy(memcnt / (DILITHIUM_N/4)).poly_index;
+            m := memory_map.zy((memcnt / (DILITHIUM_N/4)) mod DILITHIUM_l).memory_index;
+            p := memory_map.zy((memcnt / (DILITHIUM_N/4)) mod DILITHIUM_l).poly_index;
+            assert (memcnt / (DILITHIUM_N/4) < DILITHIUM_l) report "memcnt / (DILITHIUM_N/4) >= DILITHIUM_l" severity warning;
             q.memd(m).rsel <= p;
             q.memd(m).raddr <= revaddr;
             q.memd(m).ren <= (others => memcntd.en);
@@ -522,6 +523,8 @@ begin
     
     q.hregd.en_rotate_data <= '0';
     q.hregd.en_rotate_poly <= '0';
+    q.hregd.en_write_data <= '0';
+    q.hregd.en_write_poly <= '0';
 
     q.convyzd.en <= '0';
     q.convyzd.sub <= std_logic_vector(to_unsigned(2**DILITHIUM_loggamma1, 23));
@@ -763,7 +766,7 @@ begin
             regcntd.en <= '1';
             h_outreg_en <= '1';
             q.hregd.en_rotate_data <= '1';
-            if regcnt = DILITHIUM_omega-2
+            if regcnt = DILITHIUM_omega-1
             then
                 nextstate <= l_h_poly;
             end if;
@@ -774,6 +777,7 @@ begin
         
         when l_h_poly =>
             regcntd.en <= '1';
+            h_outreg_en <= '1';
             q.hregd.en_rotate_poly <= '1';
             if regcntq.max = '1' or (regcnt mod 4) = 3
             then

@@ -10,6 +10,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 library work;
 use work.dilithium.all;
@@ -33,7 +34,7 @@ architecture Behavioral of digest_msg is
     signal shacnt : natural range 0 to SHAKE256_RATE/32-1;
     
     signal buf : std_logic_vector(31 downto 0);
-    signal buf_en : std_logic := '0';
+    signal buf_en, buf_res : std_logic := '0';
     signal buf_i : natural range 0 to 3 := 0;
 
 begin
@@ -45,7 +46,7 @@ begin
     q.keccakd.data <= d.keccakq.data;
     case state is
         when absorb_tr => q.keccakd.data <= d.trregq.data;
-        when absorb    => q.keccakd.data <= d.payload xor d.keccakq.data;
+        when absorb    => q.keccakd.data <= buf xor d.keccakq.data;
         when padding_start =>
             if shacntq.max = '1'
             then
@@ -80,7 +81,11 @@ inbuffer: process(clk)
 begin
     if rising_edge(clk)
     then
-        if buf_en = '1'
+        if buf_res = '1'
+        then
+            buf_i <= 0;
+            buf <= (others => '0');
+        elsif buf_en = '1'
         then
             buf(31-buf_i*8 downto 32-(buf_i+1)*8) <= d.payload(7 downto 0);
             buf_i <= (buf_i + 1) mod 4;
@@ -89,7 +94,7 @@ begin
 end process;
 
 sha_counter: entity work.counter
-generic map (max_value => SHAKE256_RATE/8-1)
+generic map (max_value => SHAKE256_RATE/32-1)
 port map (
     clk => clk,
     d => shacntd,
@@ -117,6 +122,7 @@ begin
     q.keccakd.rst <= '0';
     
     buf_en <= '0';
+    buf_res <= '0';
     
     q.trregd.en_rotate <= '0';
     q.trregd.en_write <= '0';
@@ -128,6 +134,7 @@ begin
     
     case state is
         when idle =>
+            buf_res <= '1';
             q.ready <= '1';
             q.keccakd.rst <= '0';
             shacntd.rst <= '1';
@@ -154,6 +161,7 @@ begin
             buf_en <= d.valid;
             if d.valid = '1' and buf_i = 3
             then
+                q.ready_rcv <= '0';
                 nextstate <= absorb;
             elsif d.done = '1'
             then
@@ -187,10 +195,11 @@ begin
         when permute =>
             q.keccakd.en <= '0';
             shacntd.rst <= '1';
+            buf_res <= '1';
             
             if d.keccakq.ready = '1'
             then
-                nextstate <= absorb;
+                nextstate <= rcv;
             end if;
             
         when padding_start =>

@@ -1,12 +1,27 @@
--- COPYRIGHT (c) 2021 ALL RIGHT RESERVED
--- Chair for Security Engineering
--- Jan Richter-Brockmann, Georg Land (georg.land@rub.de)
--- License: see LICENSE file
-
+----------------------------------------------------------------------------------
+-- COPYRIGHT (c) 2018 ALL RIGHT RESERVED
+--
+-- COMPANY:					Ruhr-University Bochum, Chair for Security Engineering
+-- AUTHOR:					Jan Richter-Brockmann
+--
+-- CREATE DATE:			    13/12/2018
+-- LAST CHANGES:            13/12/2018
+-- MODULE NAME:			    KECCAK_ROUND
+--
+-- REVISION:				1.00 - Implements the KECCAK permutation function
+--
+-- LICENCE: 				Please look at licence.txt
+-- USAGE INFORMATION:	    Please look at readme.txt. If licence.txt or readme.txt
+--							are missing or if you have questions regarding the code
+--							please contact Tim Güneysu (tim.gueneysu@rub.de) and
+--                          Jan Richter-Brockmann (jan.richter-brockmann@rub.de)
+--
 -- THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY 
 -- KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
 -- IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 -- PARTICULAR PURPOSE.
+----------------------------------------------------------------------------------
+
 
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;

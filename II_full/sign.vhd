@@ -112,7 +112,7 @@ memcnt_delayed <= memcnt - GLOBAL_MEMORY_DELAY - 1 when memcnt >= GLOBAL_MEMORY_
 q.hregd.data_offset <= x"00" when state = makehint_flush else std_logic_vector(to_unsigned(memcnt_delayed mod DILITHIUM_N, 8));
 q.hregd.en_rotate_poly <= '1' when ((memcnt_delayed/DILITHIUM_N) /= 0 and (memcnt_delayed mod DILITHIUM_N) = 0) or memcntq.max = '1' else '0';
 q.hregd.en_write_poly  <= '1' when ((memcnt_delayed/DILITHIUM_N) /= 0 and (memcnt_delayed mod DILITHIUM_N) = 0) or memcntq.max = '1' else '0';
-q.hregd.poly_offset <= std_logic_vector(to_unsigned(omegacnt, 8)) when memcntq.max = '0' else std_logic_vector(to_unsigned(omegacnt+1, 8));
+q.hregd.poly_offset <= std_logic_vector(to_unsigned(omegacnt, 8));-- when memcntq.max = '0' else std_logic_vector(to_unsigned(omegacnt+1, 8));
 
 ----------------------------------------------------------------------------------------------------------
 -- highbits * 2*gamma2 LUT module
@@ -662,6 +662,8 @@ begin
     
     kappa_inc <= '0';
     kappa_rst <= '0';
+    
+    q.hregd.rst <= '0';
         
     case state is
         when idle =>
@@ -1238,6 +1240,8 @@ begin
             if kcntq.max = '1' and d.maccq.ready = '1'
             then
                 kcntd.rst <= '1';
+                memcntd.rst <= '1';
+                q.hregd.rst <= '1';
                 nextstate <= makehint;
                 report "makehint start";
             elsif kcntq.max = '0' and d.maccq.ready_read = '1'
